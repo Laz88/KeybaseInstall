@@ -24,4 +24,22 @@ else
 fi
 
 
-# Step 1: 
+# Step 1: Update, upgrade, and install curl
+
+sudo apt update
+sudo apt upgrade -y -f
+sudo apt install curl
+
+# Step 2: Download Keybase installer
+curl -O https://prerelease.keybase.io/keybase_amd64.deb
+# if you see an error about missing `libappindicator1`
+# from the next command, you can ignore it, as the
+# subsequent command corrects it
+sudo dpkg -i keybase_amd64.deb
+sudo apt-get install -f
+
+# Step 3: Remove the downloaded installer
+rm keybase_amd64.deb
+
+# Step 4: Run Keybase
+run_keybase
