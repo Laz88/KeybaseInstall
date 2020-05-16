@@ -12,6 +12,7 @@
 # SCRIPT BEGINS HERE     #
 ##########################
 
+
 # Step 0: verify the user is not root (or else the script will fail)
 
 if [ "$USER" == root ]; then
@@ -23,23 +24,16 @@ else
 	echo "[USER check] = $USER"
 fi
 
-
-# Step 1: Update, upgrade, and install curl
-
 sudo apt update
-sudo apt upgrade -y -f
-sudo apt install curl
+sudo apt install curl -y
+ if [ "`getconf LONG_BIT`" == "64" ];then
+      curl --remote-name https://prerelease.keybase.io/keybase_amd64.deb
+      sudo apt install ./keybase_amd64.deb -y
+  else
+      curl --remote-name https://prerelease.keybase.io/keybase_i386.deb
+      sudo apt install ./keybase_i386.deb
+  fi
 
-# Step 2: Download Keybase installer
-curl -O https://prerelease.keybase.io/keybase_amd64.deb
-# if you see an error about missing `libappindicator1`
-# from the next command, you can ignore it, as the
-# subsequent command corrects it
-sudo dpkg -i keybase_amd64.deb
-sudo apt-get install -f
 
-# Step 3: Remove the downloaded installer
-rm keybase_amd64.deb
 
-# Step 4: Run Keybase
-run_keybase
+echo "Enjoy your keybase."
